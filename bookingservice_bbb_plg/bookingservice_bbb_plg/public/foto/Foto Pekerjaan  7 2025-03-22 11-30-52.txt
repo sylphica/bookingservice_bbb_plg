@@ -1,0 +1,50 @@
+digraph ActivityDiagram {
+	rankdir=LR
+	node [fillcolor=lightblue shape=rect style=filled]
+	Customer [label=Customer fillcolor=lightgray shape=rect style=filled]
+	System [label=Sistem fillcolor=lightgray shape=rect style=filled]
+	CS [label="Customer Service" fillcolor=lightgray shape=rect style=filled]
+	SA [label="Service Advisor" fillcolor=lightgray shape=rect style=filled]
+	SP [label="Spare Part" fillcolor=lightgray shape=rect style=filled]
+	Manager [label="Service Manager" fillcolor=lightgray shape=rect style=filled]
+	Start [label="" fillcolor=black shape=circle style=filled]
+	Login [label="Login ke Sistem"]
+	PilihHomeService [label="Pilih Menu Booking Home Service"]
+	InputBooking [label="Input Data Booking"]
+	CekLokasi [label="Apakah Lokasi > 10km?" shape=diamond]
+	PersetujuanManager [label="Persetujuan Service Manager"]
+	TambahanBiaya [label="Tampilkan Biaya Tambahan"]
+	SetujuBiaya [label="Customer Setuju?" shape=diamond]
+	ProsesDitolak [label="Booking Dibatalkan" fillcolor=red shape=parallelogram style=filled]
+	CekPekerjaan [label="Apakah Ada Pekerjaan Tambahan?" shape=diamond]
+	EstimasiSA [label="SA Buat Estimasi Biaya"]
+	CekSparePart [label="Cek Ketersediaan Spare Part" shape=diamond]
+	SparePartTersedia [label="Spare Part Tersedia"]
+	SparePartTidakTersedia [label="Booking Ditunda" fillcolor=red shape=parallelogram style=filled]
+	VerifikasiCS [label="CS Verifikasi Data"]
+	BookingDikonfirmasi [label="Booking Dikonfirmasi" fillcolor=green shape=parallelogram style=filled]
+	GenerateDokumen [label="Generate Dokumen Stooring PDF"]
+	Notifikasi [label="Notifikasi ke Customer"]
+	End [label="" fillcolor=black shape=circle style=filled]
+	Start -> Login
+	Login -> PilihHomeService
+	PilihHomeService -> InputBooking
+	InputBooking -> CekLokasi
+	CekLokasi -> PersetujuanManager [label=Ya]
+	CekLokasi -> CekPekerjaan [label=Tidak]
+	PersetujuanManager -> TambahanBiaya [label=Disetujui]
+	PersetujuanManager -> ProsesDitolak [label="Tidak Disetujui"]
+	TambahanBiaya -> SetujuBiaya
+	SetujuBiaya -> CekPekerjaan [label=Ya]
+	SetujuBiaya -> ProsesDitolak [label=Tidak]
+	CekPekerjaan -> VerifikasiCS [label="Tidak Ada"]
+	CekPekerjaan -> EstimasiSA [label=Ada]
+	EstimasiSA -> CekSparePart
+	CekSparePart -> SparePartTersedia [label=Tersedia]
+	CekSparePart -> SparePartTidakTersedia [label="Tidak Tersedia"]
+	SparePartTersedia -> VerifikasiCS
+	VerifikasiCS -> BookingDikonfirmasi
+	BookingDikonfirmasi -> GenerateDokumen
+	GenerateDokumen -> Notifikasi
+	Notifikasi -> End
+}
